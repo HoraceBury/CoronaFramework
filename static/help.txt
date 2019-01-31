@@ -1,0 +1,9 @@
+This application will not teach you karate.
+
+The base function is to set a pace for your kihon, kata or kihon kumite practice.
+
+You choose the length of training, pace and whether breaks are included.
+
+The app takes the place of the sensei's voice.
+
+Set the timer or generate a plan for your available practice time based on your personal experience.
