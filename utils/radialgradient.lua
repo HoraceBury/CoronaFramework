@@ -37,12 +37,12 @@ function lib.new( parent, x, y, r, w, radii, colours, visibleRadii )
 
     function group:setVisibleRadii( visibleRadii )
         visibleRadii = visibleRadii or radii
-
+        
         for i=1, group.numChildren do
             group[i].isVisible = (i*2 <= visibleRadii)
         end
     end
-    group:setVisibleRadii()
+    group:setVisibleRadii( visibleRadii )
 
     return group
 end

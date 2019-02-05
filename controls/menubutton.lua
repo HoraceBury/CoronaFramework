@@ -32,6 +32,22 @@ function lib.new( parent, text, callback, heightfraction )
     local group = display.newGroups( parent, 1 )
     group.x, group.y = x, y
 
+    function group:getX()
+        return group.x
+    end
+
+    function group:getY()
+        return group.y
+    end
+
+    function group:getWidth()
+        return group.width
+    end
+
+    function group:getHeight()
+        return group.height
+    end
+
     local backrect = display.newRoundedRect( group, 0, 0, parent:getWidth()-offset, display.safeActualContentHeight*heightfraction-offset, rounding )
     local frontrect = display.newRoundedRect( group, 0, 0, parent:getWidth()-offset, display.safeActualContentHeight*heightfraction-offset, rounding )
     local line = arrow( group, 0, 0 )
@@ -43,9 +59,39 @@ function lib.new( parent, text, callback, heightfraction )
     backrect.fill = shadow
     frontrect.fill = fill
 
-    local label = display.newText{ parent=group, text=text, fontSize=72 }
-    label.x, label.y = label.width*.5+indent, frontrect.y
-    label.fill = rgb.rgb.iosgrey
+    local label, isCentred, fontSize = nil, false, 72
+
+    local function createText()
+        if (label) then label:removeSelf() end
+
+        label = display.newText{ parent=group, text=text, fontSize=fontSize }
+        if (isCentred) then label.x=frontrect.x else label.x=label.width*.5+indent end
+        label.y = frontrect.y
+        label.fill = rgb.rgb.iosgrey
+    end
+    createText()
+    
+    function group:withFontSize( _fontSize )
+        fontSize = _fontSize or 72
+        createText()
+        return group
+    end
+
+    function group:isCentred( _isCentred )
+        isCentred = _isCentred or isCentred
+        createText()
+        return group
+    end
+
+    function group:withButtonColour( _colour )
+        frontrect.fill = _colour or fill
+        return group
+    end
+
+    function group:withShadowColour( _shadow )
+        backrect.fill = _shadow or shadow
+        return group
+    end
 
     group:addEventListener( "touch", touch )
 

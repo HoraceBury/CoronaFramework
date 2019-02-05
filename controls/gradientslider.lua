@@ -15,6 +15,22 @@ function lib.new( parent, texts, value, fillcolours, backcolour, callback, heigh
     local group = display.newGroups( parent, 1 )
     group.x, group.y = x, y
 
+    function group:getX()
+        return group.x
+    end
+
+    function group:getY()
+        return group.y
+    end
+
+    function group:getWidth()
+        return group.width
+    end
+
+    function group:getHeight()
+        return group.height
+    end
+
     local function buttoncallback( text )
         callback( text, 0 )
     end
