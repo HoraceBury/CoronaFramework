@@ -1,9 +1,9 @@
-This application will not teach you karate.
+This application is a demonstration of the controls and libraries built over years for use with the Corona SDK framework.
 
-The base function is to set a pace for your kihon, kata or kihon kumite practice.
+To see how to use a particular library or control open it's related scene or just browser the code in this repository.
 
-You choose the length of training, pace and whether breaks are included.
+The code here is for anyone to use in any way they see fit with the condition that anyone doing so accepts that this is an ongoing development and at no time is considered complete.
 
-The app takes the place of the sensei's voice.
+No guarantees are made and anyone using this code must consider it as flawed as it's creator and as buggy as the next.
 
-Set the timer or generate a plan for your available practice time based on your personal experience.
+That said, please enjoy using these libraries. I hope they are at least useful or educational and help to build something better, more easily that without.

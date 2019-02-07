@@ -6,26 +6,22 @@ local scene = composer.newScene()
 local sceneGroup
 local sceneParams = {}
 
-local function gotoQuick()
-	composer.gotoScene( "scenes.quick", { effect="slideLeft", time=800 } )
+local function gotoScrollViewDemo()
+	composer.gotoScene( "scenes.scrollviewdemo" )
 end
 
-local function gotoMe()
-	composer.gotoScene( "scenes.me", { effect="slideLeft", time=800 } )
-end
-
-local function gotoSensei()
-	composer.gotoScene( "scenes.sensei", { effect="slideLeft", time=800 } )
+local function gotoReorderListDemo()
+	composer.gotoScene( "scenes.reorderlistdemo" )
 end
 
 local function gotoHelp()
-	composer.gotoScene( "scenes.help", { effect="slideLeft", time=800 } )
+	composer.gotoScene( "scenes.help", { effect="fade", time=300 } )
 end
 
 function scene:create( event )
 	sceneGroup = self.view
 	
-	local heading = display.newText{ parent=sceneGroup, text="Virtual Sensei", fontSize=72 }
+	local heading = display.newText{ parent=sceneGroup, text="Corona Framework Demos", fontSize=60, width=display.safeActualContentWidth, align="center" }
 	heading.x, heading.y = display.actualCenterX, display.safeScreenOriginY+heading.height*.6
 	heading.fill = {0,0,0}
 	sceneGroup.heading = heading
@@ -35,12 +31,9 @@ function scene:create( event )
 		display.safeActualContentWidth*.97, display.safeActualContentHeight-(heading.y+heading.height)
 	)
 
-	sceneGroup.quick = menubutton.new( sceneGroup.container, "Quick", gotoQuick, .15 )
-	sceneGroup.lesson = menubutton.new( sceneGroup.container, "Lesson", callback, .15 )
-	sceneGroup.gallery = menubutton.new( sceneGroup.container, "Gallery", callback, .15 )
-	sceneGroup.me = menubutton.new( sceneGroup.container, "Me", gotoMe, .15 )
-	sceneGroup.sensei = menubutton.new( sceneGroup.container, "Sensei", gotoSensei, .15 )
-	sceneGroup.help = menubutton.new( sceneGroup.container, "Help", gotoHelp, .15 )
+	sceneGroup.quick = menubutton.new( sceneGroup.container, "ScrollViewDemo", gotoScrollViewDemo, .15 )
+	sceneGroup.lesson = menubutton.new( sceneGroup.container, "ReorderListDemo", gotoReorderListDemo, .15 )
+	sceneGroup.lesson = menubutton.new( sceneGroup.container, "Help", gotoHelp, .15 )
 end
 
 function scene:show( event )
