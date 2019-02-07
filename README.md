@@ -1,5 +1,7 @@
 # CoronaFramework
 
+![Corona SDK](https://avatars0.githubusercontent.com/u/1779491?s=200&v=4)
+
 Repo to be forked when starting a new Corona SDK app.
 
 [Click here to see app as a demo of iteself.](https://horacebury.github.io/CoronaFramework/web/)
