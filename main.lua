@@ -47,4 +47,4 @@ local composer_isDebug = "normal"
 end ]]
 
 -- composer.gotoScene( "scenes.scrollviewdemo" )
-composer.gotoScene( "scenes.menu" )
+composer.gotoScene( "scenes.scrollviewdemo" )

@@ -1,5 +1,6 @@
 local composer = require( "composer" )
 local widget = require("widget")
+local pancontrol = require("controls.pancontrol")
 
 local scene = composer.newScene()
 local sceneGroup
@@ -40,13 +41,19 @@ function scene:create( event )
 	scrollView:setScrollWidth( display.safeActualContentWidth*.8*2 )
 	scrollView:setScrollHeight( display.safeActualContentHeight*2 )
 	
-	timer.performWithDelay( 1000, function()
-		scrollView:setScrollSpeed( -10, -100 )
-	end )
+	-- timer.performWithDelay( 1000, function()
+		-- scrollView:setScrollSpeed( -10, -100 )
+	-- end )
 	
-	timer.performWithDelay( 5000, function()
-		scrollView:setScrollSpeed( 10, 100 )
-	end )
+	-- timer.performWithDelay( 5000, function()
+	-- 	scrollView:setScrollSpeed( 10, 100 )
+	-- end )
+
+	local itemgroup = display.newGroup()
+	itemgroup.x, itemgroup.y = 300, 500
+	display.newRoundedRect( itemgroup, 0, 0, 200, 200, 50 ).fill = {1,0,1}
+
+	local pan = pancontrol.new( scrollView, itemgroup, false, true )
 end
 
 function scene:show( event )

@@ -22,7 +22,12 @@ function widget.newScrollView( ... )
         scrollView:_setScrollHeight( height )
     end
 
+    local _xSpeed, _ySpeed
+
     function scrollView:setScrollSpeed( xSpeed, ySpeed )
+        if (_xSpeed == xSpeed and _ySpeed == ySpeed) then return end
+        _xSpeed, _ySpeed = xSpeed, ySpeed
+
         transition.cancel( tagprefix..":setScrollSpeed" )
 
         local xDist, yDist = scrollView:getContentPosition()
@@ -40,14 +45,18 @@ function widget.newScrollView( ... )
 
         local xTime = (math.abs(xDist)/math.abs(xSpeed))*60
         local yTime = (math.abs(yDist)/math.abs(ySpeed))*60
+        
+        if (tostring(xTime) ~= "nan" and xTime) then
+            transition.to( scrollView:getView(), { x=xTarget, time=xTime, tag=tagprefix..":setScrollSpeed", onComplete=function()
+                transition.cancel( tagprefix..":setScrollSpeed" )
+            end } )
+        end
 
-        transition.to( scrollView:getView(), { x=xTarget, time=xTime, tag=tagprefix..":setScrollSpeed", onComplete=function()
-            transition.cancel( tagprefix..":setScrollSpeed" )
-        end } )
-
-        transition.to( scrollView:getView(), { y=yTarget, time=yTime, tag=tagprefix..":setScrollSpeed", onComplete=function()
-            transition.cancel( tagprefix..":setScrollSpeed" )
-        end } )
+        if (tostring(yTime) ~= "nan" and yTime) then
+            transition.to( scrollView:getView(), { y=yTarget, time=yTime, tag=tagprefix..":setScrollSpeed", onComplete=function()
+                transition.cancel( tagprefix..":setScrollSpeed" )
+            end } )
+        end
     end
 
     return scrollView
