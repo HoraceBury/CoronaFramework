@@ -1,6 +1,4 @@
-
-
-![Corona SDK](https://avatars1.githubusercontent.com/u/1779491?s=88&v=4) # CoronaFramework
+# CoronaFramework ![Corona SDK](https://avatars1.githubusercontent.com/u/1779491?s=88&v=4)
 
 Repo to be forked when starting a new Corona SDK app.
 
