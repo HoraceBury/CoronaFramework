@@ -14,6 +14,10 @@ local function gotoReorderListDemo()
 	composer.gotoScene( "scenes.reorderlistdemo" )
 end
 
+local function gotoSegmentedDemo()
+	composer.gotoScene( "scenes.segmenteddemo" )
+end
+
 local function gotoHelp()
 	composer.gotoScene( "scenes.help", { effect="fade", time=300 } )
 end
@@ -33,6 +37,7 @@ function scene:create( event )
 
 	sceneGroup.quick = menubutton.new( sceneGroup.container, "ScrollViewDemo", gotoScrollViewDemo, .15 )
 	sceneGroup.lesson = menubutton.new( sceneGroup.container, "ReorderListDemo", gotoReorderListDemo, .15 )
+	sceneGroup.lesson = menubutton.new( sceneGroup.container, "SegmentedDemo", gotoSegmentedDemo, .15 )
 	sceneGroup.lesson = menubutton.new( sceneGroup.container, "Help", gotoHelp, .15 )
 end
 
