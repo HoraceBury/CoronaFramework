@@ -5,6 +5,7 @@ local json = require("json")
 
 local lib = {}
 
+-- simply loads the saved table into the lib table
 function lib.load()
 	local data = iolib.wrDocs( "settings.json" )
 	
@@ -17,6 +18,7 @@ function lib.load()
 	end
 end
 
+-- simply saves the lib table without the function objects
 function lib.save()
 	local data = {}
 
@@ -30,6 +32,7 @@ function lib.save()
 	iolib.wrDocs( "settings.json", data )
 end
 
+-- saves the table and dispatches a refresh event
 function lib.refresh()
 	lib.save()
 	Runtime:dispatchEvent{ name="refresh" }
