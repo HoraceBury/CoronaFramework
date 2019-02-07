@@ -45,4 +45,35 @@ local composer_isDebug = "normal"
 	return false
 end ]]
 
-composer.gotoScene( "scenes.title" )
+-- composer.gotoScene( "scenes.title" )
+
+
+local function randomColour()
+	return math.random(100,250)/255
+end
+
+local reorder = require("controls.reorderlist")
+local list = reorder.new( display.currentStage, display.safeScreenOriginX+display.safeActualContentWidth*.1, display.safeScreenOriginY, display.safeActualContentWidth*.8, display.safeActualContentHeight )
+
+local function newitem(t)
+	local group = display.newGroup()
+
+	local rect = display.newRect( group, 0, 0, display.safeActualContentWidth*.8, display.safeActualContentHeight*.15 )
+	rect.fill = {randomColour(),randomColour(),randomColour()}
+
+	local text = display.newText{ parent=group, text=t, fontSize=48 }
+	text.fill = {1,1,1}
+
+	return group
+end
+
+list:addItem( newitem(1), true )
+list:addItem( newitem(2), true )
+list:addItem( newitem(3), true )
+list:addItem( newitem(4), true )
+list:addItem( newitem(5), true )
+list:addItem( newitem(6), true )
+list:addItem( newitem(7), true )
+list:addItem( newitem(8), true )
+list:addItem( newitem(9), true )
+list:addItem( newitem(10), true )

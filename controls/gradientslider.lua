@@ -15,8 +15,24 @@ function lib.new( parent, texts, value, fillcolours, backcolour, callback, heigh
     local group = display.newGroups( parent, 1 )
     group.x, group.y = x, y
 
+    function group:getX()
+        return group.x
+    end
+
+    function group:getY()
+        return group.y
+    end
+
+    function group:getWidth()
+        return group.width
+    end
+
+    function group:getHeight()
+        return group.height
+    end
+
     local function buttoncallback( text )
-        callback( text, 0 )
+        callback{ label=text, value=value }
     end
     
     local button = togglebutton.new( group, 0, 0, texts, buttoncallback )
@@ -48,19 +64,25 @@ function lib.new( parent, texts, value, fillcolours, backcolour, callback, heigh
     local g = (fillcolours[2][2]-fillcolours[1][2])
     local b = (fillcolours[2][3]-fillcolours[1][3])
 
-    local function position( value )
+    local function position( _value )
         local colour = {
-            fillcolours[1][1]+value*r,
-            fillcolours[1][2]+value*g,
-            fillcolours[1][3]+value*b,
+            fillcolours[1][1]+_value*r,
+            fillcolours[1][2]+_value*g,
+            fillcolours[1][3]+_value*b,
             1
         }
 
         frontrect.fill.effect.color1 = colour
-        frontrect.fill.effect.position1  = { value, 0 }
-        frontrect.fill.effect.position2  = { value+.1, 0 }
+        frontrect.fill.effect.position1  = { _value, 0 }
+        frontrect.fill.effect.position2  = { _value+.1, 0 }
+
+        value = _value
     end
     position( value )
+
+    function group:getValue()
+        return value
+    end
 
     frontrect:addEventListener( "touch", function(e)
         if (e.phase == "began") then
@@ -79,7 +101,7 @@ function lib.new( parent, texts, value, fillcolours, backcolour, callback, heigh
                 display.currentStage:setFocus(nil)
 
                 if (value < 0) then value=0 elseif (value > 1) then value=1 end
-                callback( button.getText(), value )
+                callback{ label=button.getText(), value=value }
             end
             return true
         end
