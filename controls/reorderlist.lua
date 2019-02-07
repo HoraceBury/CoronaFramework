@@ -22,8 +22,21 @@ function lib.new( parent, x, y, width, height )
     local content = display.newGroup()
     scrollView:insert( content )
 
+    local function yMaxLowest()
+        local yMax = 0
+
+        for i=1, content.numChildren do
+            if (content[i].y + content[i].height > yMax) then
+                yMax = content[i].y + content[i].height
+            end
+        end
+
+        return yMax
+    end
+    
     local function createPosition( subgroup )
         local position = display.newGroups( positions, 1 )
+        position.alpha = .3
         
         local rnd = (30+15*positions.numChildren)/255 -- math.random( 50, 150 ) / 255 -- 
         
@@ -66,6 +79,7 @@ function lib.new( parent, x, y, width, height )
         return true
     end
 
+    local isScrollingDown, isScrollingUp = false, false
     local function dragItem(e)
     	if (e.phase == "began") then
             e.target.hasFocus = true
@@ -75,6 +89,19 @@ function lib.new( parent, x, y, width, height )
             e.target.yOriginal = e.target.parent.y
             return true
         elseif (e.target.hasFocus) then
+            local _x, _y = group:contentToLocal( e.x, e.y )
+            
+            if (_y > height+100) then
+                if (not isScrollingUp) then
+                    isScrollingUp = true
+                    scrollView:scrollToPosition{ y=height-yMaxLowest(), time=2000 }
+                end
+            else
+                isScrollingUp = false
+                local _x, _y = scrollView:getContentPosition()
+                scrollView:scrollToPosition{ y=_y, time=0 }
+            end
+
             e.target.parent:toFront()
             e.target.parent.y = e.target.parent.y + (e.y-e.target.prev.y)
             e.target.prev = e
@@ -87,11 +114,6 @@ function lib.new( parent, x, y, width, height )
                 if (firePositionMove( e.target.parent, 1 )) then
                     e.target.yOriginal = e.target.yOriginal + e.target.parent.height
                 end
-            end
-
-            if (e.target.parent.y > scrollView.height) then
-                local x, y = scrollView:getContentPosition()
-                scrollView:scrollToPosition{ y=y+(scrollView.height-e.target.parent.y), time=100 }
             end
 
             if (e.phase == "moved") then
@@ -128,18 +150,6 @@ function lib.new( parent, x, y, width, height )
         subgroup:setDraggable( true )
     end
 
-    local function yMaxLowest()
-        local yMax = 0
-
-        for i=1, content.numChildren do
-            if (content[i].y + content[i].height > yMax) then
-                yMax = content[i].y + content[i].height
-            end
-        end
-
-        return yMax
-    end
-    
     function group:addItem( itemgroup, isdraggable )
         local y = yMaxLowest()
 

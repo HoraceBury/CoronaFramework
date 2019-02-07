@@ -11,6 +11,7 @@ require("libs.mathlib")
 require("libs.graphicslib")
 require("libs.timerlib")
 require("libs.composerlib")
+require("controls.scrollview")
 
 local json = require("json")
 local iolib = require("libs.iolib")
@@ -52,6 +53,7 @@ local function randomColour()
 	return math.random(100,250)/255
 end
 
+-- reorder list control demo...
 local reorder = require("controls.reorderlist")
 local list = reorder.new( display.currentStage, display.safeScreenOriginX+display.safeActualContentWidth*.1, display.safeScreenOriginY, display.safeActualContentWidth*.8, display.safeActualContentHeight )
 
@@ -77,3 +79,42 @@ list:addItem( newitem(7), true )
 list:addItem( newitem(8), true )
 list:addItem( newitem(9), true )
 list:addItem( newitem(10), true )
+
+--[[ -- speed controlled scrollview control demo...
+local widget = require("widget")
+
+local scrollView = widget.newScrollView{
+	left = display.safeScreenOriginX+display.safeActualContentWidth*.1,
+	top = display.safeScreenOriginY,
+	width = display.safeActualContentWidth*.8,
+	height = display.safeActualContentHeight,
+	scrollWidth = display.safeActualContentWidth,
+	scrollHeight = display.safeActualContentHeight,
+	backgroundColor = {.9,.6,.6},
+	horizontalScrollDisabled = false
+}
+
+local content = display.newGroup()
+scrollView:insert( content )
+
+display.newCircle( content, 0, 0, 75 ).fill = {1,0,0}
+display.newCircle( content, display.safeActualContentWidth*.8, 0, 75 ).fill = {0,1,0}
+display.newCircle( content, display.safeActualContentWidth*.8*2, 0, 75 ).fill = {0,1,.5}
+
+display.newCircle( content, 0, display.safeActualContentHeight, 75 ).fill = {1,0,1}
+display.newCircle( content, display.safeActualContentWidth*.8, display.safeActualContentHeight, 75 ).fill = {0,1,1}
+display.newCircle( content, display.safeActualContentWidth*.8*2, display.safeActualContentHeight, 75 ).fill = {.5,1,1}
+
+display.newCircle( content, 0, display.safeActualContentHeight*2, 75 ).fill = {0,0,1}
+display.newCircle( content, display.safeActualContentWidth*.8, display.safeActualContentHeight*2, 75 ).fill = {1,1,0}
+display.newCircle( content, display.safeActualContentWidth*.8*2, display.safeActualContentHeight*2, 75 ).fill = {1,1,.5}
+
+scrollView:setScrollWidth( display.safeActualContentWidth*.8*2 )
+scrollView:setScrollHeight( display.safeActualContentHeight*2 )
+
+scrollView:setScrollSpeed( -10, -100 )
+
+timer.performWithDelay( 5000, function()
+	scrollView:setScrollSpeed( 10, 100 )
+end )
+]]
