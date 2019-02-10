@@ -39,6 +39,7 @@ function lib.new( parent, setting, value, callback, heightfraction )
     tick.x, tick.y = frontrect.width-tick.width, frontrect.y
 
     backrect.fill = shadow
+    backrect.isVisible = false
     frontrect.fill = fill
 
     local label = display.newText{ parent=group, text=value, fontSize=72 }

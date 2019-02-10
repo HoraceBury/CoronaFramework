@@ -58,7 +58,8 @@ function lib.new( parent, text, callback, heightfraction )
 
     backrect.fill = shadow
     frontrect.fill = fill
-
+    backrect.isVisible = false
+    
     local label, isCentred, fontSize = nil, false, 72
 
     local function createText()

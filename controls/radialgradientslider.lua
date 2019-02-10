@@ -68,7 +68,8 @@ function lib.new( parent, r, w, radii, colours, visibleRadii, callback )
         return dot
     end
 
-    dot():addEventListener( "touch", function(e)
+    local _dot = dot()
+    _dot:addEventListener( "touch", function(e)
         if (e.phase == "began") then
             e.target.hasFocus = true
             display.currentStage:setFocus(e.target)
@@ -84,7 +85,7 @@ function lib.new( parent, r, w, radii, colours, visibleRadii, callback )
                 if (new < 0) then new=0 elseif (new > radii) then new=radii end
                 new = math.round(new)
                 e.target.rotation = new
-                gradient:setVisibleRadii( new )
+                group:setVisibleRadii( new )
                 if (callback) then callback( new ) end
             end
 
@@ -98,6 +99,20 @@ function lib.new( parent, r, w, radii, colours, visibleRadii, callback )
         end
         return false
     end )
+
+    function group:isDotVisible( isVisible )
+        _dot.isVisible = isVisible
+    end
+    
+    function group:setVisibleRadii( value )
+        visibleRadii = value
+        _dot.rotation = value
+        gradient:setVisibleRadii( value )
+    end
+    
+    function group:getVisibleRadii()
+        return visibleRadii
+    end
     
     return group
 end

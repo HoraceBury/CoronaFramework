@@ -115,6 +115,16 @@ function math.nearest( number, multiple )
 	return math.round( number / multiple ) * multiple
 end
 
+-- Rounds down to the nearest multiple of the number.
+function math.nearestLow( number, multiple )
+	return math.floor( number / multiple ) * multiple
+end
+
+-- Rounds up to the nearest multiple of the number.
+function math.nearestHigh( number, multiple )
+	return math.ceil( number / multiple ) * multiple
+end
+
 -- Return the column or row index
 function math.getColIndex( x, colSize )
 	return math.floor( x / colSize ) + 1

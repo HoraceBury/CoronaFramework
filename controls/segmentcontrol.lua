@@ -112,7 +112,7 @@ function lib.new( params )
 		for i=1, group.numChildren do
 			local button = group[i]
 			if (button.setActive) then
-				button:setActive( button.text == label )
+				button:setActive( button.text:lower() == label:lower() )
 				if (group.selected ~= button.text and button.text == label) then
 					group.selected = button.text
 				end
