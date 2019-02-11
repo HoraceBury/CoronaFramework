@@ -47,9 +47,8 @@ local composer_isDebug = "normal"
 end ]]
 
 -- composer.gotoScene( "scenes.scrollviewdemo" )
-composer.gotoScene( "scenes.menu" )
+-- composer.gotoScene( "scenes.menu" )
 
---[[
 local widget = require("widget")
 local scrollView = widget.newScrollView{
 	top=display.safeScreenOriginY, left=display.safeScreenOriginX,
@@ -60,6 +59,8 @@ local scrollView = widget.newScrollView{
 local content, drag = display.newGroup(), display.newGroup()
 scrollView:insert( content )
 drag.x, drag.y = display.safeScreenOriginX, display.safeScreenOriginY
+
+local isPopped = false
 
 local function nextContentInsertPosY()
 	local y = 0
@@ -83,16 +84,9 @@ local function addTab( parent )
 end
 
 local function pop( group )
-	-- local dopple = display.newGroups( content, 1 )
-	-- dopple.x, dopple.y = group.x, group.y
-
-	-- local rect = display.newRect( dopple, group.rect.x, group.rect.y, group.rect.width, group.rect.height )
-	-- rect.fill = {1.5,1,0,.3}
-
 	group.rect.fill = {.86}
 	drag:insert( group )
-
-	-- return dopple
+	isPopped = true
 end
 
 local function newItem( text )
@@ -130,6 +124,15 @@ local function getMidY( item )
 	return y
 end
 
+local function sorter(a,b)
+	if (not a or not b) then return true end
+	if (a.midY < b.midY) then
+		return a.midY < b.midY-b.height/2
+	else
+		return a.midY > b.midY+b.height/2
+	end
+end
+
 local function sort()
 	local tbl = { item }
 	item.midY = getMidY( item )
@@ -140,8 +143,7 @@ local function sort()
 	end
 
 	-- this function needs to determine based on closest 50%
-	table.sort( tbl, function(a,b) return a.midY < b.midY end )
-
+	table.sort( tbl, sorter ) -- throws error because calling sorter(a,b) MUST return a different result than calling sorter(b,a)
 	return tbl
 end
 
@@ -159,14 +161,12 @@ local function position( tbl )
 	end
 end
 
-transition.to( item, { time=10000, y=item.y+350, onComplete=function()
-	item.rect.fill = {.5,.5,1}
-	-- local tbl = sort()
-	-- position( tbl )
-end } )
+-- transition.to( item, { time=4000, y=item.y+350, onComplete=function()
+	transition.to( item, { time=6000, y=item.y-700 } )
+-- end } )
 
 timer.performWithDelay( 100, function()
-	local tbl = sort()
-	position( tbl )
+	if (isPopped) then
+		position( sort() )
+	end
 end, 0 )
-]]
