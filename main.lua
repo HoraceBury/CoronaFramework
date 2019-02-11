@@ -133,6 +133,24 @@ local function sorter(a,b)
 	end
 end
 
+local function swap( tbl,indexA, indexB )
+	local a, b = tbl[indexA], tbl[indexB]
+	tbl[indexA], tbl[indexB] = b, a
+end
+
+local function tableSort( tbl, func )
+	local i = 1
+
+	while (i < tbl) do
+		if (not func(tbl[i], tbl[i+1])) then
+			swap(tbl,i,i+1)
+			i = 1
+		else
+			i = i + 1
+		end
+	end
+end
+
 local function sort()
 	local tbl = { item }
 	item.midY = getMidY( item )
@@ -142,8 +160,7 @@ local function sort()
 		content[i].midY = getMidY( content[i] )
 	end
 
-	-- this function needs to determine based on closest 50%
-	table.sort( tbl, sorter ) -- throws error because calling sorter(a,b) MUST return a different result than calling sorter(b,a)
+	tableSort( tbl, sorter ) -- table.sort throws error because calling sorter(a,b) MUST return a different result than calling sorter(b,a)
 	return tbl
 end
 
