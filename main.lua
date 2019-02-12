@@ -141,7 +141,7 @@ end
 local function tableSort( tbl, func )
 	local i = 1
 
-	while (i < tbl) do
+	while (i < #tbl) do
 		if (not func(tbl[i], tbl[i+1])) then
 			swap(tbl,i,i+1)
 			i = 1
@@ -184,6 +184,6 @@ end
 
 timer.performWithDelay( 100, function()
 	if (isPopped) then
-		position( sort() )
+		-- position( sort() )
 	end
 end, 0 )
