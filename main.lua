@@ -46,8 +46,28 @@ local composer_isDebug = "normal"
 	return false
 end ]]
 
--- composer.gotoScene( "scenes.scrollviewdemo" )
-composer.gotoScene( "scenes.menu" )
+local function isSafeToRun( key, runMe, failedRun )
+	if (system.getInfo("platform") == "html5") then
+		local myplugin = require("myplugin_js")
+		
+		local str = myplugin.get()
+		if (str and str:find(key) ~= nil) then
+			runMe()
+		else
+			failedRun()
+		end
+	else
+		print("Not on web. Safe to run.")
+		runMe()
+	end
+end
+
+isSafeToRun( "1234567890", function()
+	-- composer.gotoScene( "scenes.scrollviewdemo" )
+	composer.gotoScene( "scenes.menu" )
+end, function()
+	display.newText{ text="Please add '?1234567890' to the end of the URL.", x=display.safeCenterX, y=display.safeCenterY, width=display.safeActualContentWidth, fontSize=40 }
+end )
 
 --[[
 local widget = require("widget")
