@@ -1,7 +1,7 @@
 local lib = {}
 
 function lib.new( itemgroup, draggroup )
-	local 
+	-- local 
 end
 
 return lib
