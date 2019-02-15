@@ -38,6 +38,20 @@ function lib.refresh()
 	Runtime:dispatchEvent{ name="refresh" }
 end
 
+-- sets a value and optionally broadcasts if the value changed
+function lib.set( key, value, doBroadcast )
+	local original = lib.get( key, nil )
+	lib[ key ] = value
+	if (lib[ key ] ~= original) then
+		Runtime:dispatchEvent{ name=key, value=value }
+	end
+end
+
+-- returns a guaranteed value
+function lib.get( key, default )
+	return lib[ key ] or default
+end
+
 lib.load()
 
 return lib
