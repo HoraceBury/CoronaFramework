@@ -21,6 +21,22 @@ function dump( ... )
 	end
 end
 
+function deepdump(tbl,filter,indent,keys,max)
+	keys = keys or {}
+	indent = indent or "    "
+	max = max or 5
+	for k,v in pairs(tbl) do
+		local key = indent..k.." ["..type(v).."] = "..tostring(v)
+		if (filter == nil or filter == type(v)) then
+			print(indent..k.." ["..type(v).."] = "..tostring(v))
+		end
+		if (max >= 0 and keys[key] == nil and type(v) == "table") then
+			keys[key] = key
+			deepdump(tbl,filter,indent.."    ",keys,max-1)
+		end
+	end
+end
+
 --local _print = print
 --print = function( ... )
 --	if (composer.isDebug) then
