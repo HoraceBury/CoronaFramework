@@ -19,18 +19,20 @@ function lib.translate( text, sourcelang, targetlang, callback )
     local cacheKey = "["..sourcelang.."-"..targetlang.."]["..text.."]"
 
     if (lib.cache[ cacheKey ] == nil) then
-        text = string.urlencode( text )
+        local encoded = string.urlencode( text )
 
         local _url = string.gsub( url, "<KEY>", key )
         _url = string.gsub( _url, "<LANG>", (sourcelang.."-"..targetlang):lower() )
 
-        network.request( _url..text, "GET", function(e)
-            lib.cache[ cacheKey ] = table.concat(json.decode(e.response).text)
+        network.request( _url..encoded, "GET", function(e)
+            if (not e.isError) then
+                lib.cache[ cacheKey ] = table.concat(json.decode(e.response).text)
 
-            lib.deferSave()
+                lib.deferSave()
+            end
 
             if (callback) then
-                callback( lib.cache[ cacheKey ] )
+                callback( lib.cache[ cacheKey ] or text )
             end
         end, params )
     else
@@ -62,6 +64,28 @@ function lib.deferSave()
 		lib.deferTimer = nil
 		lib.save()
 	end, 1 )
+end
+
+function lib.parsePairs( tbl )
+    for k,v in pairs(tbl) do
+        if (type(v) == "string") then
+            local key = k
+            lib.translate( v, "en", lib.currentUserLanguage(), function(t)
+                tbl[key] = t
+            end )
+        end
+    end
+end
+
+function lib.parseList( tbl )
+    for i=1, #tbl do
+        local index = i
+        if (type(tbl[i]) == "string") then
+            lib.translate( tbl[index], "en", lib.currentUserLanguage(), function(t)
+                tbl[index] = t
+            end )
+        end
+    end
 end
 
 local function test()
